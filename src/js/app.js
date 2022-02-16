@@ -6,6 +6,7 @@ import { validate } from './helpers/validate';
 import { showInputError, removeInputError } from './views/form';
 import { login } from './sevise/auth.service';
 import { notify } from './views/notification';
+import { getNews } from './sevise/news.service';
 
 const { form, inputEmail, inputPassword } = UI
 const inputs = [inputEmail, inputPassword]
@@ -27,11 +28,12 @@ async function onSubmit() {
   if(isValidForm) return
 
   try {
-    await login(inputEmail.value, inputPassword.value)
-    notify({ msg: 'Login success', className: 'alert-success' })
-    form.reset();
+    await login(inputEmail.value, inputPassword.value);
+    await getNews();
+    notify({ msg: 'Login success', className: 'alert-success' });
+    form.reset();;
   } catch (err) {
-    notify({ msg: 'Login error', className: 'alert-danger' })
+    notify({ msg: 'Login error', className: 'alert-danger' });
     console.log('err', err);
   }
 
